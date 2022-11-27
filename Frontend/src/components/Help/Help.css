@@ -1,0 +1,29 @@
+.sub {
+    height: 4rem;
+    font-size: medium;
+    margin-top: 3rem;
+}
+
+h2 {
+    margin-top: 3rem;
+}
+
+.im{
+    margin-top: 3rem;
+    width: 45rem;
+    height: 42rem;
+    display: inline-block; /* change the default display type to inline-block */
+    overflow: hidden;
+}
+
+.card1 {
+    margin-top: 0.8rem;
+}
+
+.text-box {
+    margin-bottom: 20px;
+}
+
+.padding {
+    font-size: 1.5rem !important;
+}
