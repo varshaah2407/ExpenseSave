@@ -8,8 +8,8 @@ import './Help.css';
 
 const Result = () => {
     return (
-        <div className='mt-[200px] ml-[65px] animate-bounce'>
-            <h2 className='whitespace-nowrap text-5xl font-bold text-[#000]'>We will get back with you shortly!</h2>
+        <div className='mt-[200px] ml-[65px] animate-bounce get-back'>
+            <h2 className='whitespace-nowrap text-3xl font-bold text-[#000] '>We will get back shortly</h2>
         </div>
     )
 }

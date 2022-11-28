@@ -199,7 +199,7 @@ const Dashboard = ({ id, loggedin }) => {
               ))}
             </tr>
           </thead>
-          <tbody class="table-body ">{getTable(sourceData.familyMembers)}</tbody>
+          <tbody className="table-body">{getTable(sourceData.familyMembers)}</tbody>
         </table>
         <a href="/psdash" className="text-sm text-neutral-600 see-more">
             see more

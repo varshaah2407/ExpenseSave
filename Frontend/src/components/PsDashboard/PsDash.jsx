@@ -513,7 +513,7 @@ export default function PsDash({ loggedin, id }) {
         <div className="mx-auto my-auto">
           <button
             onClick={handleOpen}
-            className="w-full py-7 px-7 bg-[#22a7ff] hover:bg-[#D3DEDC] rounded-md text-white font-semibold text-m whitespace-nowrap transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
+            className="w-full py-7 px-7 bg-[#22a7ff] hover:bg-[#FFB200] rounded-md text-white font-semibold text-m whitespace-nowrap transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
           >
             Add Expenses
           </button>
