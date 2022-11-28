@@ -1,0 +1,23 @@
+{
+  "name": "mern-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
+  },
+  "engines": {
+    "node": "16.17.x"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varshaah2407/ExpenseSave.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/varshaah2407/ExpenseSave/issues"
+  },
+  "homepage": "https://github.com/varshaah2407/ExpenseSave#readme"
+}
