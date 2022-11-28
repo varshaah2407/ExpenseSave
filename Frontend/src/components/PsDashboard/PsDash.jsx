@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import getMemberData from "../../APIs/getMemberData";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import { FaEdit, FaIcons } from "react-icons/fa";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,7 +10,7 @@ import './PsDash.css'
 import { addOneToCategory } from "../../APIs/addOneToCategory";
 import { addNewToCategory } from "../../APIs/addNewCategory";
 import { changeMemberAllowance } from "../../APIs/changeMemberAllowance";
-
+import Modal from '@mui/material/Modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,6 +18,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 
 const headers = [
   "Utilities",
@@ -30,18 +35,46 @@ const headers = [
   "Miscellaneous",
 ];
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '30em',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+
 export default function PsDash({ loggedin, id }) {
-  const [perData, setPerData] = useState();
+
+
+  
+  const [perData, setPerData] = useState(); 
 
   const navigate = useNavigate();
 
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
 
   const [allowance, setAllowance] = useState(0);
   const [allowanceModal, setAllowanceModal] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => {setShow(true)
+  //   console.log(`clicking modal`)
+  // };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -78,7 +111,7 @@ export default function PsDash({ loggedin, id }) {
     } else {
       navigate("../signin", { replace: true });
     }
-  }, [id, loggedin, navigate, show]);
+  }, [id, loggedin, navigate, open]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -97,7 +130,10 @@ export default function PsDash({ loggedin, id }) {
     } else {
       navigate("../signin", { replace: true });
     }
-  }, [id, loggedin, navigate, show, allowanceModal]);
+  }, [id, loggedin, navigate, open, allowanceModal]);
+
+  let pieChartData = []
+  
 
   const getCategoryRow = () => {
     const render = [];
@@ -106,6 +142,7 @@ export default function PsDash({ loggedin, id }) {
         return category.toUpperCase() === header.toUpperCase();
       });
       const categoryUsed = entry?.totalAmount ?? 0;
+      pieChartData.push(categoryUsed)
       render.push(
         <tr class="bg-gray-800 border-gray-700">
           <th
@@ -126,10 +163,137 @@ export default function PsDash({ loggedin, id }) {
     return render;
   };
 
+  const data = {
+    labels: ["Utilities",
+    "School",
+    "Groceries",
+    "Rent",
+    "Clothes",
+    "Subscriptions",
+    "Entertainment",
+    "Miscellaneous",],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: pieChartData,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+  
+
   return (
-    <>
-      {" "}
-      <Modal show={show} onHide={handleClose} className="w-screen h-screen">
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+        <Form>
+            <Form.Group className="" controlId="ControlInput2">
+              <Form.Label>Title</Form.Label>
+            </Form.Group>
+            <Form.Control
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              placeholder="Insert Title"
+              autoFocus
+            />
+
+            <Form.Group className="mt-3" controlId="ControlInput3">
+              <Form.Label>Description</Form.Label>
+            </Form.Group>
+            <Form.Control
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              as="textarea"
+              rows={5}
+            />
+
+            <Form.Group className="mt-3" controlId="ControlInput1">
+              <Form.Label>Amount</Form.Label>
+            </Form.Group>
+            <Form.Control
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              type="number"
+              placeholder="Insert Amount"
+              autoFocus
+            />
+
+            <Form.Group className="mt-3" controlId="ControlInput4">
+              <Form.Label>Category</Form.Label>
+              <Form.Select
+                aria-label="Select"
+                placeholder="Select A Category"
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="" disabled >
+                  Select A Category
+                </option>
+                <option value="Utilities">Utilities</option>
+                <option value="School">School</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Rent">Rent</option>
+                <option value="Clothes">Clothes</option>
+                <option value="Subscriptions">Subscriptions</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Miscellaneous">Miscellaneous</option>
+              </Form.Select>
+            </Form.Group>
+          </Form>
+          <button
+            className="bg-[#22a7ff] px-3 py-3 rounded text-white"
+            variant="secondary"
+            onClick={handleClose}
+          >
+            Close
+          </button>
+          <button
+            className="bg-[#22a7ff] px-3 py-3 rounded text-white"
+            variant="primary"
+            onClick={async () => {
+              handleClose();
+              const item = await makeItem(title, desc, amount, Date.now());
+              const response = await item.json();
+              const itemId = response._id;
+
+              const cat = perData.categories.find(
+                (ca) => ca.category.toUpperCase() === category.toUpperCase()
+              );
+
+              if (cat !== undefined) {
+                await addOneToCategory(itemId, cat._id);
+              } else {
+                console.log(category, itemId, id);
+                await addNewToCategory(category, itemId, id);
+              }
+            }}
+          >
+            Add Expenses
+          </button>
+        </Box>
+      </Modal>
+      {/* <Modal show={true} onHide={handleClose} className="w-screen h-screen">
         <Modal.Header closeButton>
           <Modal.Title>Add Expenses</Modal.Title>
         </Modal.Header>
@@ -174,7 +338,7 @@ export default function PsDash({ loggedin, id }) {
                 placeholder="Select A Category"
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="" disabled selected>
+                <option value="" disabled >
                   Select A Category
                 </option>
                 <option value="Utilities">Utilities</option>
@@ -221,8 +385,9 @@ export default function PsDash({ loggedin, id }) {
             Add Expenses
           </button>
         </Modal.Footer>
-      </Modal>
-      <Modal show={utilitiesShow} onHide={handleUtilitiesClose}>
+      </Modal> */}
+
+      {/* <Modal utilitiesShow={utilitiesShow} onHide={handleUtilitiesClose}>
         <Modal.Header closeButton>
           <Modal.Title>{head} Expenses</Modal.Title>
         </Modal.Header>
@@ -246,7 +411,9 @@ export default function PsDash({ loggedin, id }) {
             ))}
           </tbody>
         </table>
-      </Modal>
+      </Modal> */}
+
+
       <div className="flex flex-col-2">
         <div>
           <h2 className="text-3xl mx-[200px] my-[40px]  font-bold  text-[#000001] ">
@@ -259,8 +426,49 @@ export default function PsDash({ loggedin, id }) {
             ${perData?.used} used out of ${perData?.allowance}
             <button className="px-5 transition hover:scale-110 ease-in-out duration-100">
               <FaEdit size={25} onClick={() => setAllowanceModal(true)} />
+
               <Modal
-                show={allowanceModal}
+        open={allowanceModal}
+        onClose={()=>setAllowanceModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          
+        <Form>
+                  <Form.Group className="mt-3" controlId="ControlInput1">
+                    <Form.Label>Allowance</Form.Label>
+                  </Form.Group>
+                  <Form.Control
+                    value={allowance}
+                    onChange={(e) => setAllowance(e.target.value)}
+                    type="number"
+                    placeholder="Insert Amount"
+                    autoFocus
+                  />
+                </Form>
+                  <button
+                    className="bg-[#22a7ff] px-3 py-3 rounded text-white"
+                    variant="secondary"
+                    onClick={() => setAllowanceModal(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-[#22a7ff] px-3 py-3 rounded text-white"
+                    variant="primary"
+                    onClick={async () => {
+                      await changeMemberAllowance(id, allowance);
+                      setAllowanceModal(false);
+                    }}
+                  >
+                    Set
+                  </button>
+        </Box>
+      </Modal>
+
+              {/* <Modal
+                allowanceModal={allowanceModal}
                 onHide={() => setAllowanceModal(false)}
               >
                 <Modal.Header closeButton>
@@ -298,14 +506,14 @@ export default function PsDash({ loggedin, id }) {
                     Set
                   </button>
                 </Modal.Footer>
-              </Modal>
+              </Modal> */}
             </button>
           </h3>
         </div>
         <div className="mx-auto my-auto">
           <button
-            onClick={handleShow}
-            className="w-full py-7 px-7 bg-[#22a7ff] hover:bg-[#7953ab] rounded-md text-white font-semibold text-m whitespace-nowrap transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
+            onClick={handleOpen}
+            className="w-full py-7 px-7 bg-[#22a7ff] hover:bg-[#D3DEDC] rounded-md text-white font-semibold text-m whitespace-nowrap transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
           >
             Add Expenses
           </button>
@@ -342,29 +550,25 @@ export default function PsDash({ loggedin, id }) {
       </div> */}
 
       {/* MUI */}
-      <TableContainer component={Paper} className="table">
-      <Table sx={{ maxWidth: 980 }} aria-label="simple table">
+      <div className="container" style={{display: "flex", flexDirection: "row"}}>
+      <div className="container" style={{height:"400px",width:"60vw"}} >
+        <Doughnut data={data}  />
+      </div>
+      <TableContainer component={Paper} className="table" sx={{boxShadow: 3}}>
+      <Table sx={{ maxWidth: 700 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Payee</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Spent</TableCell>
+            <TableCell className="header">Category</TableCell>
+            <TableCell className="header">Spent</TableCell>
             {/* <TableCell align="right">Used&nbsp;(g)</TableCell> */}
           </TableRow>
         </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell>24-07-2002</TableCell>
-            <TableCell>John</TableCell>
-            <TableCell></TableCell>
-            
-        
-          </TableRow>
+        <TableBody className="table-body">
           {perData && getCategoryRow()}
         </TableBody>
       </Table>
     </TableContainer>
-    </>
+      </div>
+    </div>
   );
 }

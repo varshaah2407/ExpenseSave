@@ -184,7 +184,7 @@ function Signin({ loggedin, setLogin }) {
             <img className="im" src={helpImg}></img>
           </div>
           <div className="divFlexColumn card1 w-full flex">
-            <Card elevation={2} style={{maxWidth:1240, margin:"0 auto", padding:"15px 35px"}} sx={{boxShadow: 1}} className="card1">
+            <Card elevation={2} style={{maxWidth:400, margin:"0 auto", padding:"15px 35px"}} sx={{boxShadow: 1}} className="card1">
               <CardContent>
                 <Grid container spacing={1}>
             <div className="text font-extrabold text-5xl mx-auto card1 title ">

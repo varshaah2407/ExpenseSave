@@ -8,4 +8,6 @@
 
 .card1 {
     margin-top: 2vh !important;
+    /* margin-left: 3rem; */
+    align-content: center;
 }

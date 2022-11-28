@@ -43,7 +43,7 @@ const Navbar = ({ loggedin, setLogin }) => {
               Sign Up
             </a>
             <a
-              className="font-bold bg-[#FFB200] py-4 px-6 rounded opacity-100"
+              className="font-bold py-4 px-6 rounded opacity-100"
               href="/signin"
             >
               Sign In

@@ -7,7 +7,7 @@
     font-size: 3rem;
     color: black;
     padding-bottom: 3rem;
-    margin-left: 11rem;
+    margin-left: 11.5rem;
 }
 
 .name {
@@ -16,7 +16,7 @@
 
 .see-more {
     margin-left: 20rem;
-    margin-top: 2rem;
+    margin-top: 4rem;
     font-size: 1.5rem;
 }
 
@@ -42,9 +42,17 @@
 }
 
 .box-top {
-    height: 12rem;
+    height: 14rem;
 }
 
 .inside-card {
     margin-left: -11rem;
+}
+
+.head {
+    background-color: #e2f4ff;
+}
+
+.table-body {
+    height: 4rem;
 }

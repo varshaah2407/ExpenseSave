@@ -190,18 +190,18 @@ const Dashboard = ({ id, loggedin }) => {
           Expense Summary
         </div>
         <table class="mx-[200px] my-[-15px] w-[900px]">
-          <thead class="bg-gray-50 border-b-2 border-gray-200">
+          <thead class="head border-b-2 border-gray-300">
             <tr>
               {headers.map((header) => (
-                <th class="p-3 text-sm font-semibold tracking-wide">
+                <th class="p-3 text-xl font-semibold tracking-wide">
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody>{getTable(sourceData.familyMembers)}</tbody>
+          <tbody class="table-body ">{getTable(sourceData.familyMembers)}</tbody>
         </table>
-        <a href="/psdash" className="text-3xl text-neutral-600 see-more">
+        <a href="/psdash" className="text-sm text-neutral-600 see-more">
             see more
           </a>
       </div>
